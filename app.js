@@ -11,7 +11,7 @@ var flash = require('connect-flash');
 var session = require('express-session');
 
 var app = express();
-
+//app.locals.mail=undefined
 var assets = require('connect-assets');
 app.use(assets({
         helperContext: app.locals,
