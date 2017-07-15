@@ -15,7 +15,7 @@ var app = express();
 var assets = require('connect-assets');
 app.use(assets({
         helperContext: app.locals,
-        paths: ['public/stylesheets', 'public/javascripts']
+        paths: ['public/stylesheets', 'public/javascripts','public/images']
     })
 );
 
@@ -32,7 +32,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     secret: 'ilovescotchscotchyscotchscotch', // session secret
     resave: true,
