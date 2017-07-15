@@ -9,6 +9,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var flash = require('connect-flash');
 var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
 
 var app = express();
 //app.locals.mail=undefined
@@ -31,13 +32,17 @@ app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
+
 app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, 'public')));
+
+
 app.use(session({
     secret: 'ilovescotchscotchyscotchscotch', // session secret
     resave: true,
     saveUninitialized: true
 }));
+
 //app.use(passport.initialize());
 //app.use(passport.session()); // persistent login sessions
 app.use(flash());
