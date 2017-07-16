@@ -9,7 +9,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var flash = require('connect-flash');
 var session = require('express-session');
-var RedisStore = require('connect-redis')(session);
+var csession = require('cookie-session');
 
 var app = express();
 //app.locals.mail=undefined
@@ -23,11 +23,9 @@ app.use(assets({
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-var bodyParser = require('body-parser');
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
@@ -37,17 +35,35 @@ app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, 'public')));
 
 
+
 app.use(session({
     secret: 'ilovescotchscotchyscotchscotch', // session secret
     resave: true,
     saveUninitialized: true
 }));
 
+/*
+var expiryDate = new Date( Date.now() + 60 * 60 * 1000 ); // 1 hour
+app.use(csession({
+        name: 'session',
+        keys: ['key1', 'key2'],
+        cookie: { secure: true,
+            httpOnly: true,
+            domain: 'example.com',
+            path: 'foo/bar',
+            expires: expiryDate
+        }
+    })
+);
+*/
+
 //app.use(passport.initialize());
 //app.use(passport.session()); // persistent login sessions
 app.use(flash());
 app.use('/', index);
 app.use('/users', users);
+
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -57,7 +73,7 @@ app.use(function (req, res, next) {
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res) { // tolto next
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
