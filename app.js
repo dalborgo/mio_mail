@@ -8,10 +8,16 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var flash = require('connect-flash');
+var mongoose = require('mongoose');
 var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 var csession = require('cookie-session');
-
+mongoose.connect('mongodb://localhost/myapp',{ useMongoClient: true });
 var app = express();
+var env = process.env.NODE_ENV || 'dev';
+
+
+
 //app.locals.mail=undefined
 var assets = require('connect-assets');
 app.use(assets({
@@ -33,15 +39,22 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 
 app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, 'public')));
-
-
-
-app.use(session({
-    secret: 'ilovescotchscotchyscotchscotch', // session secret
-    resave: true,
-    saveUninitialized: true
-}));
-
+if(env === 'production') {
+    console.log('\x1b[46m%s\x1b[0m', '*** produzione ***');
+    app.use(session({
+        secret: 'keyboard cat',
+        saveUninitialized: true, // don't create session until something stored
+        resave: true, //don't save session if unmodified
+        store: new MongoStore({mongooseConnection: mongoose.connection,
+        ttl: 2 * 24 * 60 * 60})
+    }));
+}else{
+    app.use(session({
+        secret: 'ilovescotchscotchyscotchscotch', // session secret
+        resave: true,
+        saveUninitialized: true
+    }));
+}
 /*
 var expiryDate = new Date( Date.now() + 60 * 60 * 1000 ); // 1 hour
 app.use(csession({

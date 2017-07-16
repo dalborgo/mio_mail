@@ -4,3 +4,4 @@ builtAssets/
 mio_mail.iml
 node_modules/
 public/stylesheets/style.css
+npm-debug.log
