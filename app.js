@@ -12,11 +12,10 @@ var mongoose = require('mongoose');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var csession = require('cookie-session');
-mongoose.connect('mongodb://localhost/myapp',{ useMongoClient: true });
+//mongoose.connect('mongodb://marco:myapp@localhost:27017/myapp',{ useMongoClient: true });
+mongoose.connect(process.env.MONGOLAB_URI,{ useMongoClient: true });
 var app = express();
 var env = process.env.NODE_ENV || 'dev';
-
-
 
 //app.locals.mail=undefined
 var assets = require('connect-assets');

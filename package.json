@@ -6,6 +6,9 @@
     "start": "node ./bin/www",
     "startdev": "nodemon ./bin/www"
   },
+  "engines": {
+    "node": "4.8.4"
+  },
   "dependencies": {
     "body-parser": "~1.17.1",
     "connect-assets": "^5.4.0",
