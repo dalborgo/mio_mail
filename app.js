@@ -38,7 +38,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 
 app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, 'public')));
-/*if(env === 'production') {
+if(env !== 'production') {
     console.log('\x1b[46m%s\x1b[0m', '*** produzione ***');
     app.use(session({
         secret: 'keyboard cat',
@@ -47,13 +47,13 @@ app.use(cookieParser());
         store: new MongoStore({mongooseConnection: mongoose.connection,
         ttl: 2 * 24 * 60 * 60})
     }));
-}else{*/
+}else{
     app.use(session({
         secret: 'ilovescotchscotchyscotchscotch', // session secret
         resave: true,
         saveUninitialized: true
     }));
-//}
+}
 /*
 var expiryDate = new Date( Date.now() + 60 * 60 * 1000 ); // 1 hour
 app.use(csession({
