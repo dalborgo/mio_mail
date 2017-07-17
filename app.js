@@ -13,7 +13,7 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var csession = require('cookie-session');
 //mongoose.connect('mongodb://marco:myapp@localhost:27017/myapp',{ useMongoClient: true });
-mongoose.connect('mongodb://heroku_q8wjpl22:826o8s9lv2ke9k7o90j6g7dfqf@ds161022.mlab.com:61022/heroku_q8wjpl22',{ useMongoClient: true });
+mongoose.connect(process.env.MONGODB_URI,{ useMongoClient: true });
 var app = express();
 var env = process.env.NODE_ENV || 'dev';
 
