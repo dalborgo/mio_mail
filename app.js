@@ -13,7 +13,7 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var csession = require('cookie-session');
 //mongoose.connect('mongodb://marco:myapp@localhost:27017/myapp',{ useMongoClient: true });
-mongoose.connect(process.env.MONGOLAB_URI,{ useMongoClient: true });
+//mongoose.connect(process.env.MONGOLAB_URI,{ useMongoClient: true });
 var app = express();
 var env = process.env.NODE_ENV || 'dev';
 
@@ -38,7 +38,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 
 app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, 'public')));
-if(env === 'production') {
+/*if(env === 'production') {
     console.log('\x1b[46m%s\x1b[0m', '*** produzione ***');
     app.use(session({
         secret: 'keyboard cat',
@@ -47,13 +47,13 @@ if(env === 'production') {
         store: new MongoStore({mongooseConnection: mongoose.connection,
         ttl: 2 * 24 * 60 * 60})
     }));
-}else{
+}else{*/
     app.use(session({
         secret: 'ilovescotchscotchyscotchscotch', // session secret
         resave: true,
         saveUninitialized: true
     }));
-}
+//}
 /*
 var expiryDate = new Date( Date.now() + 60 * 60 * 1000 ); // 1 hour
 app.use(csession({
